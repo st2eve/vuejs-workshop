@@ -2,6 +2,7 @@
 export default {
   data() {
     return {
+      brand: 'Vue Mastery',
       cart: 0,
       product: "socks",
       description: "Beautiful and soft touch socks",
