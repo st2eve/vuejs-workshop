@@ -7,7 +7,8 @@ export default {
       description: "Beautiful and soft touch socks",
       image: "./src/assets/images/socks_blue.jpg",
       url: "https://vuejs.org/guide/introduction.html",
-      inventory: 100,
+      inventory: 15,
+      inStock: true,
       onSale: true,
       details: ["50% coton", "30% wool", "20% polyester"],
       sizes: ["XS", "S", "L", "XL"],
@@ -28,11 +29,25 @@ export default {
   methods: {
     addToCart() {
       this.cart += 1;
+      this.inventory -= 1;
+    },
+    removeToCart() {
+      if (this.cart > 0) {
+        this.cart -= 1;
+        this.inventory += 1;
+      }
     },
     updateImage(variantImage) {
       this.image = variantImage;
     },
   },
+  computed: {
+    outOfStock(){
+      if(this.inventory = 0){
+        inStock = !inStock;
+      }
+    }
+  }
 };
 </script>
 
@@ -71,10 +86,13 @@ export default {
           v-for="variant in variants"
           :key="variant.id"
           @mouseover="updateImage(variant.image)"
-        >
-          {{ variant.color }}
-        </div>
-        <button class="button" v-on:click="addToCart()">Add to cart</button>
+          class="color-circle"
+          :style="{ backgroundColor: variant.color }"
+        ></div>
+        <button class="button" @click="addToCart()" :disabled="!inStock">Add to cart</button>
+        <button class="button" @click="removeToCart()">
+          Remove from cart
+        </button>
       </div>
     </div>
   </div>
