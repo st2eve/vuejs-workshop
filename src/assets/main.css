@@ -162,6 +162,11 @@ ul {
   list-style-type: none;
 }
 
+.outOfStockImg{
+  opacity: 50%;
+  cursor: not-allowed;
+}
+
 @media only screen and (max-width: 600px) {
   .container {
     flex-direction: column;

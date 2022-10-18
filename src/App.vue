@@ -8,7 +8,6 @@ export default {
       image: "./src/assets/images/socks_blue.jpg",
       url: "https://vuejs.org/guide/introduction.html",
       inventory: 15,
-      inStock: true,
       onSale: true,
       details: ["50% coton", "30% wool", "20% polyester"],
       sizes: ["XS", "S", "L", "XL"],
@@ -28,8 +27,10 @@ export default {
   },
   methods: {
     addToCart() {
-      this.cart += 1;
-      this.inventory -= 1;
+      if (this.inventory > 0) {
+        this.cart += 1;
+        this.inventory -= 1;
+      }
     },
     removeToCart() {
       if (this.cart > 0) {
@@ -41,13 +42,6 @@ export default {
       this.image = variantImage;
     },
   },
-  computed: {
-    outOfStock(){
-      if(this.inventory = 0){
-        inStock = !inStock;
-      }
-    }
-  }
 };
 </script>
 
@@ -58,7 +52,7 @@ export default {
     <div class="product-container">
       <div class="product-image">
         <a :href="url" target="_blank">
-          <img :src="image" />
+          <img :src="image" :class="{outOfStockImg: inventory == 0}" />
         </a>
       </div>
       <div class="product-info">
@@ -89,8 +83,20 @@ export default {
           class="color-circle"
           :style="{ backgroundColor: variant.color }"
         ></div>
-        <button class="button" @click="addToCart()" :disabled="!inStock">Add to cart</button>
-        <button class="button" @click="removeToCart()">
+        <button
+          class="button"
+          @click="addToCart()"
+          :class="{ disabledButton: inventory == 0 }"
+          :disabled="inventory == 0"
+        >
+          Add to cart
+        </button>
+        <button 
+          class="button" 
+          @click="removeToCart()"
+          :class="{ disabledButton: cart == 0 }"
+          :disabled="cart == 0"
+        >
           Remove from cart
         </button>
       </div>
