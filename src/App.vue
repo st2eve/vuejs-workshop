@@ -10,7 +10,7 @@ export default {
       inventory: 15,
       onSale: true,
       details: ["50% coton", "30% wool", "20% polyester"],
-      sizes: ["XS", "S", "L", "XL"],
+      sizes: ["XS", "S", "M", "L", "XL"],
       variants: [
         {
           id: 1,
