@@ -68,7 +68,7 @@ export default {
         <p v-if="inventory > 10">In stock</p>
         <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out !</p>
         <p v-else>Out of stock</p>
-        <list>
+        <div class="list">
           <ul>
             <li v-for="detail in details">
               {{ detail }}
@@ -79,32 +79,36 @@ export default {
               {{ size }}
             </li>
           </ul>
-        </list>
-        <div
-          v-for="variant in variants"
-          :key="variant.id"
-          @mouseover="updateImage(variant.image)"
-          class="color-circle"
-          :style="{ backgroundColor: variant.color }"
-        ></div>
-        <button
-          class="button"
-          @click="addToCart()"
-          :class="{ disabledButton: inventory == 0 }"
-          :disabled="inventory == 0"
-        >
-          Add to cart
-        </button>
-        <button
-          class="button"
-          @click="removeToCart()"
-          :class="{ disabledButton: cart == 0 }"
-          :disabled="cart == 0"
-        >
-          Remove from cart
-        </button>
-        <div class="cart">Cart ({{ cart }})</div>
+        </div>
+        <div class="circle__container">
+          <div
+            v-for="variant in variants"
+            :key="variant.id"
+            @mouseover="updateImage(variant.image)"
+            class="color-circle"
+            :style="{ backgroundColor: variant.color }"
+          ></div>
+        </div>
+        <div class="button__container">
+          <button
+            class="button"
+            @click="addToCart()"
+            :class="{ disabledButton: inventory == 0 }"
+            :disabled="inventory == 0"
+          >
+            Add to cart
+          </button>
+          <button
+            class="button"
+            @click="removeToCart()"
+            :class="{ disabledButton: cart == 0 }"
+            :disabled="cart == 0"
+          >
+            Remove from cart
+          </button>
+        </div>
       </div>
+      <div class="cart">Cart ({{ cart }})</div>
     </div>
   </div>
 </template>
