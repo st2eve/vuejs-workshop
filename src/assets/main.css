@@ -2,9 +2,14 @@
 
 body {
   background-color: #f2f2f2;
-  margin: 0px;
+  margin: 0;
   font-family: tahoma;
   color: #282828;
+}
+
+#app {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .button {
@@ -108,6 +113,11 @@ p {
 .product-image,
 .product-info {
   width: 50%;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
 }
 
 .review-form {

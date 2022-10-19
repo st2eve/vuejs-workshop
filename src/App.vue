@@ -1,3 +1,5 @@
+<!-- eslint-disable vue/require-v-for-key -->
+<!-- eslint-disable prettier/prettier -->
 <script>
 export default {
   data() {
@@ -48,12 +50,11 @@ export default {
 
 <template>
   <div class="nav-bar"></div>
-  <div class="cart">Cart ({{ cart }})</div>
   <div class="product-display">
     <div class="product-container">
       <div class="product-image">
         <a :href="url" target="_blank">
-          <img :src="image" :class="{outOfStockImg: inventory == 0}" />
+          <img :src="image" :class="{ outOfStockImg: inventory == 0 }" />
         </a>
       </div>
       <div class="product-info">
@@ -67,16 +68,18 @@ export default {
         <p v-if="inventory > 10">In stock</p>
         <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out !</p>
         <p v-else>Out of stock</p>
-        <ul>
-          <li v-for="detail in details">
-            {{ detail }}
-          </li>
-        </ul>
-        <ul>
-          <li v-for="size in sizes">
-            {{ size }}
-          </li>
-        </ul>
+        <list>
+          <ul>
+            <li v-for="detail in details">
+              {{ detail }}
+            </li>
+          </ul>
+          <ul>
+            <li v-for="size in sizes">
+              {{ size }}
+            </li>
+          </ul>
+        </list>
         <div
           v-for="variant in variants"
           :key="variant.id"
@@ -92,14 +95,15 @@ export default {
         >
           Add to cart
         </button>
-        <button 
-          class="button" 
+        <button
+          class="button"
           @click="removeToCart()"
           :class="{ disabledButton: cart == 0 }"
           :disabled="cart == 0"
         >
           Remove from cart
         </button>
+        <div class="cart">Cart ({{ cart }})</div>
       </div>
     </div>
   </div>
