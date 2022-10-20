@@ -1,66 +1,85 @@
 <script>
+import ProductDetails from "./ProductDetails.vue";
 export default {
+    props: {
+        premium: {
+            type: Boolean,
+            required: true,
+        },
+    },
     data() {
         return {
-        brand: 'Vue Mastery',
-        cart: 0,
-        product: "socks",
-        description: "Beautiful and soft touch socks",
-        selectedVariant: 0,
-        url: "https://vuejs.org/guide/introduction.html",
-        onSale: true,
-        details: ["50% coton", "30% wool", "20% polyester"],
-        sizes: ["XS", "S", "M", "L", "XL"],
-        variants: [
-            {
-            id: 1,
-            color: "green",
-            image: "./src/assets/images/socks_green.jpg",
-            quantity: 50,
-            },
-            {
-            id: 2,
-            color: "blue",
-            image: "./src/assets/images/socks_blue.jpg",
-            quantity: 0,
-            },
-        ],
+            brand: "Vue Mastery",
+            cart: 0,
+            product: "socks",
+            description: "Beautiful and soft touch socks",
+            selectedVariant: 0,
+            url: "https://vuejs.org/guide/introduction.html",
+            onSale: true,
+            details: ["50% coton", "30% wool", "20% polyester"],
+            sizes: ["XS", "S", "M", "L", "XL"],
+            variants: [
+                {
+                    id: 1,
+                    color: "green",
+                    image: "./src/assets/images/socks_green.jpg",
+                    quantity: 50,
+                },
+                {
+                    id: 2,
+                    color: "blue",
+                    image: "./src/assets/images/socks_blue.jpg",
+                    quantity: 0,
+                },
+            ],
         };
     },
     methods: {
         addToCart() {
-        if (this.variants[this.selectedVariant].quantity > 0) {
-            this.cart += 1;
-            this.variants[this.selectedVariant].quantity -= 1;
-        }
+            if (this.variants[this.selectedVariant].quantity > 0) {
+                this.cart += 1;
+                this.variants[this.selectedVariant].quantity -= 1;
+            }
         },
         removeToCart() {
-        if (this.cart > 0) {
-            this.cart -= 1;
-            this.variants[this.selectedVariant].quantity += 1;
-        }
+            if (this.cart > 0) {
+                this.cart -= 1;
+                this.variants[this.selectedVariant].quantity += 1;
+            }
         },
         updateVariant(index) {
-        this.selectedVariant = index;
+            this.selectedVariant = index;
         },
     },
     computed: {
         title() {
-        return this.brand + ' ' + this.product
+            return this.brand + " " + this.product;
         },
         image() {
-        return this.variants[this.selectedVariant].image
+            return this.variants[this.selectedVariant].image;
         },
         inStock() {
-        return this.variants[this.selectedVariant].quantity
+            return this.variants[this.selectedVariant].quantity;
         },
         onSaleDisplay() {
-        if (this.onSale == true){
-            return this.brand + ' ' + this.product + ' is on sale !'
-        }else{
-            return this.brand + ' ' + this.product + ' will be on sale soon !'
+            if (this.onSale == true) {
+                return this.brand + " " + this.product + " is on sale !";
+            }
+            else {
+                return this.brand + " " + this.product + " will be on sale soon !";
+            }
+        },
+        shipping() {
+            if (this.premium) {
+                return "Free";
+            }
+            else {
+                return 4.99;
+            }
         }
-        }
+    },
+    components: { 
+        ProductDetails 
     }
 }
 </script>
@@ -70,30 +89,30 @@ export default {
         <div class="product-container">
         <div class="product-image">
             <a :href="url" target="_blank">
-            <img :src="image" :class="{ outOfStockImg: inventory == 0 }" />
+                <img :src="image" :class="{ outOfStockImg: inventory == 0 }" />
             </a>
         </div>
         <div class="product-info">
             <h1>
-            {{ title }}
+                {{ title }}
             </h1>
             <p>
-            {{ description }}
+                {{ description }}
             </p>
             <p>{{ onSaleDisplay }}</p>
             <p v-if="inStock">In stock</p>
             <p v-else>Out of stock</p>
+
+            <p>
+                Shipping: {{ shipping }}
+            </p>
             <div class="list">
-            <ul>
-                <li v-for="detail in details">
-                {{ detail }}
-                </li>
-            </ul>
-            <ul>
-                <li v-for="size in sizes">
-                {{ size }}
-                </li>
-            </ul>
+                <ProductDetails :details="details" />
+                <ul>
+                    <li v-for="size in sizes">
+                        {{ size }}
+                    </li>
+                </ul>
             </div>
             <div class="circle__container">
             <div

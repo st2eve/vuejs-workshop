@@ -6,13 +6,16 @@ import ProductDisplay from './components/ProductDisplay.vue';
 export default {
   components: {
     ProductDisplay,
+  },
+  data() {
+    return {
+      premium: false,
+    }
   }
 } 
 
 </script>
 <template>
   <div class="nav-bar"></div>
-  <ProductDisplay />
-  <ProductDisplay />
-  <ProductDisplay />
+  <ProductDisplay :premium="premium" />
 </template>
