@@ -223,4 +223,13 @@ ul {
   .review-form {
     width: 90%;
   }
+
+  .cart{
+    margin: 20px;
+    width: 100%;
+  }
+
+  .button__container{
+    justify-content: center;
+  }
 }
