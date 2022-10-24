@@ -48,4 +48,4 @@ If you are unsure about an option, simply choose "No" by hitting enter for now (
 ## Preparation of folders and files
 
 index.html
-![index](prepa_index.jpeg "index.html")
+![index](./readme/img/prepa_index.jpeg "index.html")
