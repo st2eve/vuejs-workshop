@@ -222,7 +222,7 @@ ul {
     width: 100%;
   }
 
-  .review-form {
+  .review-form, .review-container {
     width: 90%;
   }
 
