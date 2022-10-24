@@ -1,6 +1,12 @@
-# vue-project
+# Workshop : Vuejs Initiation
 
-This template should help get you started developing with Vue 3 in Vite.
+Hello to you young coder,
+
+This workshop is offered to you in order to learn as simply and efficiently as possible how to use the Vuejs framework.
+
+It has been very very very inspired by the [Vue Mastery course](https://youtu.be/bzlFvd0b65c) from which it takes a lot of elements but with some modifications/additions.
+
+Do not hesitate to visit their [Youtube channel](https://www.youtube.com/c/VueMastery) and their [Website](https://www.vuemastery.com/).
 
 ## Recommended IDE Setup
 
