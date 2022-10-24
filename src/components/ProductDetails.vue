@@ -2,7 +2,7 @@
     export default {
         props: {
             details: {
-                type: String,
+                type: Array,
             }
         },
     }

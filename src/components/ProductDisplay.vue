@@ -6,11 +6,13 @@ export default {
             type: Boolean,
             required: true,
         },
+        cart: {
+            type: Number,
+        },
     },
     data() {
         return {
             brand: "Vue Mastery",
-            cart: 0,
             product: "socks",
             description: "Beautiful and soft touch socks",
             selectedVariant: 0,
@@ -23,7 +25,7 @@ export default {
                     id: 1,
                     color: "green",
                     image: "./src/assets/images/socks_green.jpg",
-                    quantity: 50,
+                    quantity: 15,
                 },
                 {
                     id: 2,
@@ -37,13 +39,13 @@ export default {
     methods: {
         addToCart() {
             if (this.variants[this.selectedVariant].quantity > 0) {
-                this.cart += 1;
+                this.$emit('add-to-cart');
                 this.variants[this.selectedVariant].quantity -= 1;
             }
         },
         removeToCart() {
             if (this.cart > 0) {
-                this.cart -= 1;
+                this.$emit('remove-from-cart');
                 this.variants[this.selectedVariant].quantity += 1;
             }
         },
@@ -89,7 +91,7 @@ export default {
         <div class="product-container">
         <div class="product-image">
             <a :href="url" target="_blank">
-                <img :src="image" :class="{ outOfStockImg: inventory == 0 }" />
+                <img :src="image" :class="{ outOfStockImg: !inStock }" />
             </a>
         </div>
         <div class="product-info">
