@@ -311,3 +311,9 @@ ul {
 ### Files to be deleted
 
 ![Files to be deleted](./readme/img/supr.jpeg "Files to be deleted")
+
+### Files to be added
+
+![Files to be added](./readme/img/add.jpeg "Files to be added")
+
+You can get these images from this repository in src => assets => images
