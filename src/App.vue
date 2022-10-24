@@ -1,5 +1,5 @@
-<!-- eslint-disable vue/require-v-for-key -->
 <!-- eslint-disable prettier/prettier -->
+<!-- eslint-disable vue/require-v-for-key -->
 <script>
 import ProductDisplay from "./components/ProductDisplay.vue";
 import ReviewForm from "./components/ReviewForm.vue";
@@ -9,8 +9,8 @@ export default {
   components: {
     ProductDisplay,
     ReviewForm,
-    ReviewList
-},
+    ReviewList,
+  },
   data() {
     return {
       cart: 0,
@@ -25,9 +25,9 @@ export default {
     removeFromCart() {
       this.cart -= 1;
     },
-    addReview(review){
-      this.reviews.push(review)
-    }
+    addReview(review) {
+      this.reviews.push(review);
+    },
   },
 };
 </script>
