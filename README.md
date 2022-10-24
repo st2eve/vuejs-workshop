@@ -307,3 +307,7 @@ ul {
   }
 }
 ```
+
+### Files to be deleted
+
+![Files to be deleted](./readme/img/supr.jpeg "Files to be deleted")
