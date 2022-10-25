@@ -735,7 +735,7 @@ So we tell it that when a hover (mouseover) event is heard, it should trigger th
                     <button class="button" @click="addToCart">
                         Add to cart
                     </button>
-                    <button class="button" @click="removeToCart()">
+                    <button class="button" @click="removeToCart">
                         Remove from cart
                     </button>
                 </div>
