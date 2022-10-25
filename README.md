@@ -64,6 +64,7 @@ Here we simply change the title
 </script>
 
 <template>
+  <div class="nav-bar"></div>
   
 </template>
 ```
@@ -92,6 +93,8 @@ First, a little overview.
 The goal of this workshop is not to create a functional application, obviously, that would be far too long for an exercise that should only last a few hours.
 
 We will create a product single page where we can add the product to a shopping cart, choose the colour, have different interactions and leave a review.
+
+After each feature seen, a small exercise will be proposed followed by its solution.
 
 All this will allow us to see how Vuejs works and to learn the basics which will then hopefully help you to build any frontend project.
 
@@ -138,3 +141,30 @@ How do the double "{{ }}" work?
 Imagine that they are phones, they will make a call to the place where the information is stored, so in the data function. They're going to ask "what is the product value?" and the data function is going to say "it's Socks".
 
 So they're going to display "Socks".
+
+### 3.1.1 - Challenge :
+<details>
+  <summary>Add a description in the data function and display it in your template in a "p" tag</summary>
+  ```sh
+    <script>
+        export default {
+            data(){
+                return {
+                    product: 'Socks',
+                    description: "Beautiful and soft touch socks",
+                }
+            }
+        }
+    </script>
+
+    <template>
+        <div class="nav-bar"></div>
+        <h1>
+            {{ product }}
+        </h1>
+        <p>
+            {{ description }}
+        </p>
+    </template>
+  ```
+</details>
