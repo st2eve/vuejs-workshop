@@ -171,3 +171,103 @@ So they're going to display "Socks".
 </details>
 
 ### 3.2 - Attribute Binding
+First, let's set up our html :
+
+```sh
+  <template>
+    <div class="nav-bar"></div>
+
+    <div class="product-display">
+      <div class="product-container">
+        <div class="product-image">
+          <!-- image goes here -->
+        </div>
+        <div class="product-info">
+          <h1>
+            {{ product }}
+          </h1>
+          <p>
+            {{ description }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </template>
+```
+
+We will use what is called attribute binding to display our images. First, we add the path of an image to our data:
+
+```sh
+  export default {
+        data(){
+            return {
+                product: 'Socks',
+                description: "Beautiful and soft touch socks",
+                image: './src/assets/images/socks_green.jpg',
+            }
+        }
+    }
+```
+
+With what we learned earlier, you would think that it would be enough to display the information between "{{ }}" like this :
+
+```sh
+  <div class="product-image">
+    <img src="{{ image }}">
+  </div>
+```
+Well, you're almost right, but it's even simpler than that. In a tag, we won't need the "{{ }}", we'll just have to add "v-bind" before the attribute :
+
+```sh
+  <div class="product-image">
+    <img v-bind:src="image">
+  </div>
+
+  or simply
+
+  <div class="product-image">
+    <img :src="image">
+  </div>
+```
+What is going on here? v-bind dynamically binds an attribute to an expression. here it's the attribute "src" to the expression "image".
+
+#### 3.2.1 - Challenge :
+<details>
+  <summary>Add a url in the data and bind this expression to a "href" attribute in an "a" tag. This "a" tag will contain your image.</summary>
+
+  ```sh
+    <script>
+        export default {
+            data(){
+                return {
+                    product: 'Socks',
+                    description: "Beautiful and soft touch socks",
+                    image: './src/assets/images/socks_green.jpg',
+                    url: "https://vuejs.org/guide/introduction.html",
+                }
+            }
+        }
+    </script>
+
+    <template>
+        <div class="nav-bar"></div>
+
+        <div class="product-display">
+            <div class="product-container">
+                <div class="product-image">
+                    <a :href="url" target="_blank">
+                        <img :src="image" />
+                    </a>
+                </div>
+                <div class="product-info">
+                    <h1>
+                        {{ product }}
+                    </h1>
+                    <p>
+                        {{ description }}
+                    </p>
+                </div>
+            </div>
+        </div>
+  ```
+</details>
