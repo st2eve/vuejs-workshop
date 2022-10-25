@@ -96,3 +96,45 @@ We will create a product single page where we can add the product to a shopping 
 All this will allow us to see how Vuejs works and to learn the basics which will then hopefully help you to build any frontend project.
 
 I don't know what else to say so...Let's go !
+
+### 3.1 - How to display data in Vue
+
+In a first step, we will mainly work in the App.vue file.
+
+We will first display a title for this product :
+```sh
+<template>
+  <h1>
+    Product title
+  </h1>
+</template>
+```
+So far, it's just simple html, but what we really want is to display information with Vue that we can dynamically modify as we wish.
+
+So...
+
+We will create a data function that will return this information :
+```sh
+<script>
+    export default {
+        data(){
+            return {
+              product: 'Socks',
+            }
+        }
+    }
+</script>
+```
+Then, in our template, we just have to import our data, here it is the product title:
+```sh
+<template>
+  <h1>
+    {{ product }}
+  </h1>
+</template>
+```
+How do the double "{{ }}" work?
+
+Imagine that they are phones, they will make a call to the place where the information is stored, so in the data function. They're going to ask "what is the product value?" and the data function is going to say "it's Socks".
+
+So they're going to display "Socks".
