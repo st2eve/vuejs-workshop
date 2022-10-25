@@ -12,7 +12,7 @@ Do not hesitate to visit their [Youtube channel](https://www.youtube.com/c/VueMa
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-## Creating a Vue Application
+## 1.0 - Creating a Vue Application
 
 Make sure you have an up-to-date version of [Node.js](https://nodejs.org/en/) installed, then run the following command in your command line :
 
@@ -45,15 +45,15 @@ If you are unsure about an option, simply choose "No" by hitting enter for now (
 > npm run dev
 ```
 
-## Preparation of folders and files
+## 2.0 - Preparation of folders and files
 
-### index.html :
+### 2.1 - index.html :
 
 ![index](./readme/img/prepa_index.jpeg "index.html")
 
 Here we simply change the title
 
-### App.vue :
+### 2.2 - App.vue :
 
 ```sh
 <!-- eslint-disable prettier/prettier -->
@@ -69,15 +69,15 @@ Here we simply change the title
 ```
 (Yes, basically, you remove everything xD)
 
-### main.css :
+### 2.3 - main.css :
 
 You can copy the entire css code right [HERE](https://github.com/st2eve/vuejs-workshop/blob/main/src/assets/main.css)
 
-### Files to be deleted
+### 2.4 - Files to be deleted
 
 ![Files to be deleted](./readme/img/supr.jpeg "Files to be deleted")
 
-### Files to be added
+### 2.5 - Files to be added
 
 ![Files to be added](./readme/img/add.jpeg "Files to be added")
 
