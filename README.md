@@ -269,5 +269,40 @@ What is going on here? v-bind dynamically binds an attribute to an expression. h
                 </div>
             </div>
         </div>
+    </template>
   ```
 </details>
+
+### 3.3 - Conditional Rendering
+
+We add in our template :
+
+```sh
+    <div class="product-info">
+        <h1>
+            {{ product }}
+        </h1>
+        <p>
+            {{ description }}
+        </p>
+        <p>
+          In stock
+        </p>
+        <p>
+          Out of stock
+        </p>
+    </div>
+  ```
+Here, we only want to display one of the 2 paragraphs, depending on whether the product is in stock or not. To do this, we will add an "inStock" property to our data which will be a boolean :
+
+```sh
+    data(){
+            return {
+                product: 'Socks',
+                description: "Beautiful and soft touch socks",
+                image: './src/assets/images/socks_green.jpg',
+                url: "https://vuejs.org/guide/introduction.html",
+                inStock: true,
+            }
+        }
+  ```
