@@ -65,9 +65,10 @@ Here we simply change the title
 
 <template>
   <div class="nav-bar"></div>
-  
+
 </template>
 ```
+
 (Yes, basically, you remove everything xD)
 
 ### 2.3 - main.css :
@@ -88,7 +89,7 @@ You can get these images from this repository right [HERE](https://github.com/st
 
 Let's get to the heart of the matter.
 
-First, a little overview. 
+First, a little overview.
 
 The goal of this workshop is not to create a functional application, obviously, that would be far too long for an exercise that should only last a few hours.
 
@@ -105,6 +106,7 @@ I don't know what else to say so...Let's go !
 In a first step, we will mainly work in the App.vue file.
 
 We will first display a title for this product :
+
 ```sh
 <template>
   <h1>
@@ -112,11 +114,13 @@ We will first display a title for this product :
   </h1>
 </template>
 ```
+
 So far, it's just simple html, but what we really want is to display information with Vue that we can dynamically modify as we wish.
 
 So...
 
 We will create a data function that will return this information :
+
 ```sh
 <script>
     export default {
@@ -128,7 +132,9 @@ We will create a data function that will return this information :
     }
 </script>
 ```
+
 Then, in our template, we just have to import our data, here it is the product title:
+
 ```sh
 <template>
   <h1>
@@ -136,6 +142,7 @@ Then, in our template, we just have to import our data, here it is the product t
   </h1>
 </template>
 ```
+
 How do the double "{{ }}" work?
 
 Imagine that they are phones, they will make a call to the place where the information is stored, so in the data function. They're going to ask "what is the product value?" and the data function is going to say "it's Socks".
@@ -143,34 +150,37 @@ Imagine that they are phones, they will make a call to the place where the infor
 So they're going to display "Socks".
 
 #### 3.1.1 - Challenge :
+
 <details>
   <summary>Add a description in the data function and display it in your template in a "p" tag</summary>
 
-  ```sh
-    <script>
-        export default {
-            data(){
-                return {
-                    product: 'Socks',
-                    description: "Beautiful and soft touch socks",
-                }
-            }
-        }
-    </script>
+```sh
+  <script>
+      export default {
+          data(){
+              return {
+                  product: 'Socks',
+                  description: "Beautiful and soft touch socks",
+              }
+          }
+      }
+  </script>
 
-    <template>
-        <div class="nav-bar"></div>
-        <h1>
-            {{ product }}
-        </h1>
-        <p>
-            {{ description }}
-        </p>
-    </template>
-  ```
+  <template>
+      <div class="nav-bar"></div>
+      <h1>
+          {{ product }}
+      </h1>
+      <p>
+          {{ description }}
+      </p>
+  </template>
+```
+
 </details>
 
 ### 3.2 - Attribute Binding
+
 First, let's set up our html :
 
 ```sh
@@ -216,6 +226,7 @@ With what we learned earlier, you would think that it would be enough to display
     <img src="{{ image }}">
   </div>
 ```
+
 Well, you're almost right, but it's even simpler than that. In a tag, we won't need the "{{ }}", we'll just have to add "v-bind" before the attribute :
 
 ```sh
@@ -229,48 +240,51 @@ Well, you're almost right, but it's even simpler than that. In a tag, we won't n
     <img :src="image">
   </div>
 ```
+
 What is going on here? v-bind dynamically binds an attribute to an expression. here it's the attribute "src" to the expression "image".
 
 #### 3.2.1 - Challenge :
+
 <details>
   <summary>Add a url in the data and bind this expression to a "href" attribute in an "a" tag. This "a" tag will contain your image.</summary>
 
-  ```sh
-    <script>
-        export default {
-            data(){
-                return {
-                    product: 'Socks',
-                    description: "Beautiful and soft touch socks",
-                    image: './src/assets/images/socks_green.jpg',
-                    url: "https://vuejs.org/guide/introduction.html",
-                }
-            }
-        }
-    </script>
+```sh
+  <script>
+      export default {
+          data(){
+              return {
+                  product: 'Socks',
+                  description: "Beautiful and soft touch socks",
+                  image: './src/assets/images/socks_green.jpg',
+                  url: "https://vuejs.org/guide/introduction.html",
+              }
+          }
+      }
+  </script>
 
-    <template>
-        <div class="nav-bar"></div>
+  <template>
+      <div class="nav-bar"></div>
 
-        <div class="product-display">
-            <div class="product-container">
-                <div class="product-image">
-                    <a :href="url" target="_blank">
-                        <img :src="image" />
-                    </a>
-                </div>
-                <div class="product-info">
-                    <h1>
-                        {{ product }}
-                    </h1>
-                    <p>
-                        {{ description }}
-                    </p>
-                </div>
-            </div>
-        </div>
-    </template>
-  ```
+      <div class="product-display">
+          <div class="product-container">
+              <div class="product-image">
+                  <a :href="url" target="_blank">
+                      <img :src="image" />
+                  </a>
+              </div>
+              <div class="product-info">
+                  <h1>
+                      {{ product }}
+                  </h1>
+                  <p>
+                      {{ description }}
+                  </p>
+              </div>
+          </div>
+      </div>
+  </template>
+```
+
 </details>
 
 ### 3.3 - Conditional Rendering
@@ -292,7 +306,8 @@ We add in our template :
           Out of stock
         </p>
     </div>
-  ```
+```
+
 Here, we only want to display one of the 2 paragraphs, depending on whether the product is in stock or not. To do this, we will add an "inStock" property to our data which will be a boolean :
 
 ```sh
@@ -305,4 +320,71 @@ Here, we only want to display one of the 2 paragraphs, depending on whether the 
                 inStock: true,
             }
         }
-  ```
+```
+We will be able to put this condition in our tags with the "v-if" directive :
+
+```sh
+  <p v-if="inStock">
+    In stock
+  </p>
+  <p v-else>
+    Out of stock
+  </p>
+```
+Here we literally say "If it's in stock, show the 1st paragraph, otherwise show the 2nd".
+
+Another way to use conditions is with v-show. The difference is that instead of acting on the display, v-show acts on the visibility.
+
+#### 3.3.1 - Challenge :
+
+<details>
+  <summary>Add an onSale boolean to the data, use that to conditionally render a "p" tag that says "On Sale !" whenever onSale is true</summary>
+
+```sh
+<script>
+    export default {
+        data(){
+            return {
+                product: 'Socks',
+                description: "Beautiful and soft touch socks",
+                image: './src/assets/images/socks_green.jpg',
+                url: "https://vuejs.org/guide/introduction.html",
+                inStock: true,
+                onSale: true,
+            }
+        }
+    }
+</script>
+
+<template>
+    <div class="nav-bar"></div>
+
+    <div class="product-display">
+        <div class="product-container">
+            <div class="product-image">
+                <a :href="url" target="_blank">
+                    <img :src="image" />
+                </a>
+            </div>
+            <div class="product-info">
+                <h1>
+                    {{ product }}
+                </h1>
+                <p>
+                    {{ description }}
+                </p>
+                <p v-if="inStock">
+                    In stock
+                </p>
+                <p v-else>
+                    Out of stock
+                </p>
+                <p v-show="onSale">
+                    On Sale !
+                </p>
+            </div>
+        </div>
+    </div>
+</template>
+```
+</details>
