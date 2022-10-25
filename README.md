@@ -6,7 +6,7 @@ This workshop is offered to you in order to learn as simply and efficiently as p
 
 It has been very very very inspired by the [Vue Mastery course](https://youtu.be/bzlFvd0b65c) from which it takes a lot of elements but with some modifications/additions.
 
-Do not hesitate to visit their [Youtube channel](https://www.youtube.com/c/VueMastery) and their [Website](https://www.vuemastery.com/).
+Do not hesitate to visit their [Youtube channel](https://www.youtube.com/c/VueMastery), their [Github](https://github.com/Code-Pop) and their [Website](https://www.vuemastery.com/).
 
 ## Recommended IDE Setup
 
