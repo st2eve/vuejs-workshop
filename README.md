@@ -146,6 +146,7 @@ So they're going to display "Socks".
 <details>
   <summary>Add a description in the data function and display it in your template in a "p" tag</summary>
   ```sh
+
     <script>
         export default {
             data(){
@@ -166,5 +167,6 @@ So they're going to display "Socks".
             {{ description }}
         </p>
     </template>
+    
   ```
 </details>
