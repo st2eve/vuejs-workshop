@@ -82,3 +82,17 @@ You can copy the entire css code right [HERE](https://github.com/st2eve/vuejs-wo
 ![Files to be added](./readme/img/add.jpeg "Files to be added")
 
 You can get these images from this repository right [HERE](https://github.com/st2eve/vuejs-workshop/tree/main/src/assets/images)
+
+## 3.0 - The project
+
+Let's get to the heart of the matter.
+
+First, a little overview. 
+
+The goal of this workshop is not to create a functional application, obviously, that would be far too long for an exercise that should only last a few hours.
+
+We will create a product single page where we can add the product to a shopping cart, choose the colour, have different interactions and leave a review.
+
+All this will allow us to see how Vuejs works and to learn the basics which will then hopefully help you to build any frontend project.
+
+I don't know what else to say so...Let's go !
