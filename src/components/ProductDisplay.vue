@@ -117,31 +117,31 @@ export default {
                 </ul>
             </div>
             <div class="circle__container">
-            <div
-                v-for="(variant, index) in variants"
-                :key="variant.id"
-                @mouseover="updateVariant(index)"
-                class="color-circle"
-                :style="{ backgroundColor: variant.color }"
-            ></div>
+                <div
+                    v-for="(variant, index) in variants"
+                    :key="variant.id"
+                    @mouseover="updateVariant(index)"
+                    class="color-circle"
+                    :style="{ backgroundColor: variant.color }"
+                ></div>
             </div>
             <div class="button__container">
-            <button
-                class="button"
-                @click="addToCart()"
-                :class="{ disabledButton: !inStock }"
-                :disabled="!inStock"
-            >
-                Add to cart
-            </button>
-            <button
-                class="button"
-                @click="removeToCart()"
-                :class="{ disabledButton: cart == 0 }"
-                :disabled="cart == 0"
-            >
-                Remove from cart
-            </button>
+                <button
+                    class="button"
+                    @click="addToCart()"
+                    :class="{ disabledButton: !inStock }"
+                    :disabled="!inStock"
+                >
+                    Add to cart
+                </button>
+                <button
+                    class="button"
+                    @click="removeToCart()"
+                    :class="{ disabledButton: cart == 0 }"
+                    :disabled="cart == 0"
+                >
+                    Remove from cart
+                </button>
             </div>
         </div>
         <div class="cart">Cart ({{ cart }})</div>

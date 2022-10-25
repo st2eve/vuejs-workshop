@@ -451,7 +451,7 @@ data(){
 ```
 Same logic as before, we also add a "key" attribute which we bind to an "id" of the "variants" array, wich gives each DOM element a unique key.
 
-#### 3.3.1 - Challenge :
+#### 3.4.1 - Challenge :
 
 <details>
   <summary>Add an array of "sizes" to the data and use v-for to display them in a list</summary>
@@ -528,6 +528,219 @@ Same logic as before, we also add a "key" attribute which we bind to an "id" of 
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</template>
+```
+</details>
+
+### 3.5 - Event Handling
+
+Since this is a product page, we need to be able to add this product to a shopping cart. Let's add that :
+
+```
+data(){
+  return {
+    ...,
+    cart: 0,
+ }
+}
+
+
+<div class="product-info">
+  ...
+  <div class="circle__container">
+    ...
+  </div>
+  <div class="button__container">
+    <button class="button">
+      Add to cart
+    </button>
+  </div>
+</div>
+<div class="cart">Cart ({{ cart }})</div>
+```
+We have added a "cart" object to the data which has the value "0". On the html side, we added the cart and the "add to cart" button.
+
+Here we want to trigger an event on an element. In this case, each time the "add to cart" button is clicked, the cart will increase by "1". To do this, we will use the v-on directive :
+
+```
+  <div class="button__container">
+    <button class="button" v-on:click="cart += 1">
+      Add to cart
+    </button>
+  </div>
+
+  or simply
+
+  <div class="button__container">
+    <button class="button" @click="cart += 1">
+      Add to cart
+    </button>
+  </div>
+```
+However, we may need to use more complex logic that would be difficult to introduce directly into an attribute. Therefore, we will use a method :
+
+```
+data(){
+  return {
+    ...,
+    cart: 0,
+ }
+},
+methods: {
+  addToCart(){
+    this.cart += 1
+  }
+},
+     
+<div class="button__container">
+  <button class="button" @click="addToCart">
+    Add to cart
+  </button>
+</div>
+```
+What happens ? v-on is like an ear waiting to hear a command, in this case, the command is a click. When it hears this command, it will call the "addToCart" function. The method will then trigger the function that is being called to make it do what it is programmed to do, in this case, add "1" to the cart.
+
+Now that we can trigger events, let's play with the colours of the product :
+
+```
+You can update your data like this :
+
+data(){
+  return {
+    ...,
+    variants: [
+        {
+          id: 1,
+          color: "green",
+          image: "./src/assets/images/socks_green.jpg",
+        },
+        {
+          id: 2,
+          color: "blue",
+          image: "./src/assets/images/socks_blue.jpg",
+        },
+    ],
+ }
+}
+
+And the div with your variants like this :
+
+<div 
+  v-for="variant in variants" 
+  :key="variant.id" 
+  @mouseover="updateImage(variant.image)"
+>
+  {{ variant.color }}
+</div>
+```
+So we tell it that when a hover (mouseover) event is heard, it should trigger the "updateImage" function which will act on the element of the variant.image array and thus update the value of "image" with the path of variantImage.
+
+#### 3.5.1 - Challenge :
+
+<details>
+  <summary>Create a new button that decrements the value of cart</summary>
+
+```sh
+<script>
+    export default {
+        data(){
+            return {
+                product: 'Socks',
+                description: "Beautiful and soft touch socks",
+                image: "./src/assets/images/socks_green.jpg",
+                url: "https://vuejs.org/guide/introduction.html",
+                inStock: true,
+                onSale: true,
+                details: ["50% coton", "30% wool", "20% polyester"],
+                variants: [
+                    {
+                        id: 1,
+                        color: "green",
+                        image: "./src/assets/images/socks_green.jpg",
+                    },
+                    {
+                        id: 2,
+                        color: "blue",
+                        image: "./src/assets/images/socks_blue.jpg",
+                    },
+                ],
+                sizes: ["XS", "S", "M", "L", "XL"],
+                cart: 0,
+            }
+        },
+        methods: {
+            addToCart(){
+                this.cart += 1
+            },
+            removeToCart(){
+                this.cart -= 1
+            },
+            updateImage(variantImage){
+                this.image = variantImage
+            },
+        }
+    }
+</script>
+
+<template>
+    <div class="nav-bar"></div>
+
+    <div class="product-display">
+        <div class="product-container">
+            <div class="product-image">
+                <a :href="url" target="_blank">
+                    <img :src="image" />
+                </a>
+            </div>
+            <div class="product-info">
+                <h1>
+                    {{ product }}
+                </h1>
+                <p>
+                    {{ description }}
+                </p>
+                <p v-if="inStock">
+                    In stock
+                </p>
+                <p v-else>
+                    Out of stock
+                </p>
+                <p v-show="onSale">
+                    On Sale !
+                </p>
+                <div class="list">
+                    <ul>
+                        <li v-for="detail in details">
+                            {{ detail }}
+                        </li>
+                    </ul>
+                    <ul>
+                    <li v-for="size in sizes">
+                        {{ size }}
+                    </li>
+                </ul>
+                </div>
+                <div class="circle__container">
+                    <div 
+                        v-for="variant in variants" 
+                        :key="variant.id" 
+                        @mouseover="updateImage(variant.image)"
+                    >
+                        {{ variant.color }}
+                    </div>
+                </div>
+                <div class="button__container">
+                    <button class="button" @click="addToCart">
+                        Add to cart
+                    </button>
+                    <button class="button" @click="removeToCart()">
+                        Remove from cart
+                    </button>
+                </div>
+            </div>
+            <div class="cart">Cart ({{ cart }})</div>
         </div>
     </div>
 </template>
