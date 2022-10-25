@@ -399,12 +399,7 @@ For this part, we will have a list of details of our product :
 ```sh
 data(){
     return {
-        product: 'Socks',
-        description: "Beautiful and soft touch socks",
-        image: './src/assets/images/socks_green.jpg',
-        url: "https://vuejs.org/guide/introduction.html",
-        inStock: true,
-        onSale: true,
+        ...,
         details: ["50% coton", "30% wool", "20% polyester"],
     }
 }
