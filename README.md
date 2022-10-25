@@ -145,8 +145,8 @@ So they're going to display "Socks".
 ### 3.1.1 - Challenge :
 <details>
   <summary>Add a description in the data function and display it in your template in a "p" tag</summary>
-  ```sh
 
+  ```sh
     <script>
         export default {
             data(){
@@ -167,6 +167,5 @@ So they're going to display "Socks".
             {{ description }}
         </p>
     </template>
-    
   ```
 </details>
