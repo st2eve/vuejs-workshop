@@ -746,3 +746,151 @@ So we tell it that when a hover (mouseover) event is heard, it should trigger th
 </template>
 ```
 </details>
+
+### 3.6 - Class & Style Binding
+
+Previously, we added the possibility to see the 2 available colours of the product. For a more eye-pleasing result, how could we show the colours directly rather than the names of the colours ?
+
+```
+<div class="circle__container">
+    <div 
+        v-for="variant in variants" 
+        :key="variant.id" 
+        @mouseover="updateImage(variant.image)"
+        class="color-circle"
+        :style="{ backgroundColor: variant.color }"
+    ></div>
+</div>
+```
+First we add a class for css formatting. Then, remember, we use ":" followed by an attribute to bind an element. Here we tell it that in the "style" attribute its background is equal to the "color" element in the variants array.
+
+Note that we add the element between "{ }", why ? Because we call an element of an array.
+
+Let's play with this, let's imagine that the product is no longer in stock... It would be wise to prevent the product from being added to the cart. Let's use the same logic in this case:
+
+```
+<button 
+    class="button" 
+    @click="addToCart"
+    :class="{ disabledButton: !inStock }"
+    :disabled="!inStock"
+>
+    Add to cart
+</button>
+```
+We tell it that if "inStock" is false, it gains the "disabledButton" class and the "disabled" attribute, which will prevent us from clicking.
+
+#### 3.6.1 - Challenge :
+
+<details>
+  <summary>Bind the "out-of-stock-img" class to the image whenever "inStock" is false</summary>
+
+```sh
+<script>
+    export default {
+        data(){
+            return {
+                product: 'Socks',
+                description: "Beautiful and soft touch socks",
+                image: "./src/assets/images/socks_green.jpg",
+                url: "https://vuejs.org/guide/introduction.html",
+                inStock: true,
+                onSale: true,
+                details: ["50% coton", "30% wool", "20% polyester"],
+                variants: [
+                    {
+                        id: 1,
+                        color: "green",
+                        image: "./src/assets/images/socks_green.jpg",
+                    },
+                    {
+                        id: 2,
+                        color: "blue",
+                        image: "./src/assets/images/socks_blue.jpg",
+                    },
+                ],
+                sizes: ["XS", "S", "M", "L", "XL"],
+                cart: 0,
+            }
+        },
+        methods: {
+            addToCart(){
+                this.cart += 1
+            },
+            removeToCart(){
+                this.cart -= 1
+            },
+            updateImage(variantImage){
+                this.image = variantImage
+            },
+        }
+    }
+</script>
+
+<template>
+    <div class="nav-bar"></div>
+
+    <div class="product-display">
+        <div class="product-container">
+            <div class="product-image">
+                <a :href="url" target="_blank">
+                    <img :src="image" :class="{ outOfStockImg: !inStock }" />
+                </a>
+            </div>
+            <div class="product-info">
+                <h1>
+                    {{ product }}
+                </h1>
+                <p>
+                    {{ description }}
+                </p>
+                <p v-if="inStock">
+                    In stock
+                </p>
+                <p v-else>
+                    Out of stock
+                </p>
+                <p v-show="onSale">
+                    On Sale !
+                </p>
+                <div class="list">
+                    <ul>
+                        <li v-for="detail in details">
+                            {{ detail }}
+                        </li>
+                    </ul>
+                    <ul>
+                    <li v-for="size in sizes">
+                        {{ size }}
+                    </li>
+                </ul>
+                </div>
+                <div class="circle__container">
+                    <div 
+                        v-for="variant in variants" 
+                        :key="variant.id" 
+                        @mouseover="updateImage(variant.image)"
+                        class="color-circle"
+                        :style="{ backgroundColor: variant.color }"
+                    ></div>
+                </div>
+                <div class="button__container">
+                    <button 
+                        class="button" 
+                        @click="addToCart"
+                        :class="{ disabledButton: !inStock }"
+                        :disabled="!inStock"
+                    >
+                        Add to cart
+                    </button>
+                    <button class="button" @click="removeToCart()">
+                        Remove from cart
+                    </button>
+                </div>
+            </div>
+            <div class="cart">Cart ({{ cart }})</div>
+        </div>
+    </div>
+</template>
+```
+</details>
