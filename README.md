@@ -142,7 +142,7 @@ Imagine that they are phones, they will make a call to the place where the infor
 
 So they're going to display "Socks".
 
-### 3.1.1 - Challenge :
+#### 3.1.1 - Challenge :
 <details>
   <summary>Add a description in the data function and display it in your template in a "p" tag</summary>
 
@@ -169,3 +169,5 @@ So they're going to display "Socks".
     </template>
   ```
 </details>
+
+### 3.2 - Attribute Binding
