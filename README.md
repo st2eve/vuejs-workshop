@@ -321,6 +321,7 @@ Here, we only want to display one of the 2 paragraphs, depending on whether the 
             }
         }
 ```
+
 We will be able to put this condition in our tags with the "v-if" directive :
 
 ```sh
@@ -331,6 +332,7 @@ We will be able to put this condition in our tags with the "v-if" directive :
     Out of stock
   </p>
 ```
+
 Here we literally say "If it's in stock, show the 1st paragraph, otherwise show the 2nd".
 
 Another way to use conditions is with v-show. The difference is that instead of acting on the display, v-show acts on the visibility.
@@ -382,6 +384,154 @@ Another way to use conditions is with v-show. The difference is that instead of 
                 <p v-show="onSale">
                     On Sale !
                 </p>
+            </div>
+        </div>
+    </div>
+</template>
+```
+
+</details>
+
+### 3.4 - List Rendering
+
+For this part, we will have a list of details of our product :
+
+```sh
+data(){
+    return {
+        product: 'Socks',
+        description: "Beautiful and soft touch socks",
+        image: './src/assets/images/socks_green.jpg',
+        url: "https://vuejs.org/guide/introduction.html",
+        inStock: true,
+        onSale: true,
+        details: ["50% coton", "30% wool", "20% polyester"],
+    }
+}
+```
+
+So the question is, how do we display this list of details without being repetitive? the answer is in the v-for directive :
+
+```sh
+<div class="list">
+    <ul>
+        <li v-for="detail in details">
+            {{ detail }}
+        </li>
+    </ul>
+</div>
+```
+
+Let's add this code afterwards in our template. What's going on here ? We instruct that for each element we name "detail" in the "details" array, we will display a "li" tag which will contain the value of a "detail" element.
+
+As you can see, v-for simply acts as a "for" loop.
+
+Let's go further in the reasoning by displaying the available colours:
+
+```sh
+data(){
+  return {
+    ...,
+    variants: [
+        {
+          id: 1,
+          color: "green",
+        },
+        {
+          id: 2,
+          color: "blue",
+        },
+    ],
+ }
+}
+
+<template>
+  ...
+  <div class="circle__container">
+      <div v-for="variant in variants" :key="variant.id">
+          {{ variant.color }}
+      </div>
+  </div>
+</template>
+```
+Same logic as before, we also add a "key" attribute which we bind to an "id" of the "variants" array, wich gives each DOM element a unique key.
+
+#### 3.3.1 - Challenge :
+
+<details>
+  <summary>Add an array of "sizes" to the data and use v-for to display them in a list</summary>
+
+```sh
+<script>
+    export default {
+        data(){
+            return {
+                product: 'Socks',
+                description: "Beautiful and soft touch socks",
+                image: './src/assets/images/socks_green.jpg',
+                url: "https://vuejs.org/guide/introduction.html",
+                inStock: true,
+                onSale: true,
+                details: ["50% coton", "30% wool", "20% polyester"],
+                variants: [
+                    {
+                        id: 1,
+                        color: "green",
+                    },
+                    {
+                        id: 2,
+                        color: "blue",
+                    },
+                ],
+                sizes: ["XS", "S", "M", "L", "XL"],
+            }
+        }
+    }
+</script>
+
+<template>
+    <div class="nav-bar"></div>
+
+    <div class="product-display">
+        <div class="product-container">
+            <div class="product-image">
+                <a :href="url" target="_blank">
+                    <img :src="image" />
+                </a>
+            </div>
+            <div class="product-info">
+                <h1>
+                    {{ product }}
+                </h1>
+                <p>
+                    {{ description }}
+                </p>
+                <p v-if="inStock">
+                    In stock
+                </p>
+                <p v-else>
+                    Out of stock
+                </p>
+                <p v-show="onSale">
+                    On Sale !
+                </p>
+                <div class="list">
+                    <ul>
+                        <li v-for="detail in details">
+                            {{ detail }}
+                        </li>
+                    </ul>
+                    <ul>
+                    <li v-for="size in sizes">
+                        {{ size }}
+                    </li>
+                </ul>
+                </div>
+                <div class="circle__container">
+                    <div v-for="variant in variants" :key="variant.id">
+                        {{ variant.color }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
