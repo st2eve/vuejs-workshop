@@ -950,7 +950,7 @@ data(){
                 id: 2,
                 color: "blue",
                 image: "./src/assets/images/socks_blue.jpg",
-                quantity: 15,
+                quantity: 0,
             },
         ],
         ...,
