@@ -777,6 +777,14 @@ Let's play with this, let's imagine that the product is no longer in stock... It
 >
     Add to cart
 </button>
+<button 
+    class="button" 
+    @click="removeToCart()"
+    :class="{ disabledButton: cart == 0 }"
+    :disabled="cart == 0"
+>
+    Remove from cart
+</button>
 ```
 We tell it that if "inStock" is false, it gains the "disabledButton" class and the "disabled" attribute, which will prevent us from clicking.
 
@@ -1141,3 +1149,11 @@ We simply return the image and the quantity of the index chosen in the "variants
 </template>
 ```
 </details>
+
+### 3.8 - Components & Props
+
+What are the components? We can think of them as lego blocks that we can fit together and the whole thing forms our Vue application.
+
+In our files, we have kept a "components" folder (if not, create it). In it, we will create our first file, named "ProductDisplay.vue".
+
+![product-display](./readme/img/product-display.jpeg "product-display")
