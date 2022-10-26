@@ -1509,3 +1509,257 @@ ProductDetails.vue :
 </template>
 ```
 </details>
+
+### 3.9 - Communicating Events
+
+Remember, in the previous exercise, we "broke" the ability to add to the basket. We saw that the Props allowed us to pass data between a parent and child file. But how do you pass information from an event ?
+
+The answer is the Emitting Events. This notifies the "parent" file when an event is triggered.
+
+In the code it looks like this :
+
+```
+in ProductDisplay.vue :
+
+methods: {
+    addToCart(){
+        this.$emit('add-to-cart');
+    },
+},
+
+in App.vue :
+
+methods: {
+    updateCart() {
+        this.cart += 1;
+    },
+},
+
+<template>
+    <div class="nav-bar"></div>
+    <ProductDisplay 
+        :cart="cart"
+        :premium="premium"
+        @add-to-cart="updateCart"
+    />
+</template>
+```
+Explanations. In ProductDisplay, we modify the addToCart function by telling it "when the button is clicked, you will emit radio waves (thanks to $emit) called "add-to-cart". 
+
+Then, these waves will be perceived by a radio of the same name (@add-to-cart) which will give the order to trigger the "updateCart" function, this one being programmed to add "1" to the cart.
+
+To go further, we can give it a condition. For example, if the quantity is greater than "0" then you can add "1" to the cart and decrease the quantity by "1" :
+
+```
+in ProductDisplay.vue :
+
+methods: {
+    addToCart(){
+        if (this.variants[this.selectedVariant].quantity > 0) {
+            this.$emit('add-to-cart');
+            this.variants[this.selectedVariant].quantity -= 1;
+        }
+    },
+},
+```
+
+#### 3.9.1 - Challenge :
+
+<details>
+  <summary>Modify the Remove button to make it work again.</summary>
+
+```sh
+ProductDisplay.vue :
+
+<script>
+import ProductDetails from "./ProductDetails.vue";
+
+    export default {
+        components: { 
+            ProductDetails 
+        },
+        props: {
+            premium: {
+                type: Boolean,
+                required: true,
+            },
+            cart: {
+                type: Number,
+            },
+        },
+        data(){
+            return {
+                product: 'Socks',
+                description: "Beautiful and soft touch socks",
+                url: "https://vuejs.org/guide/introduction.html",
+                onSale: true,
+                details: ["50% coton", "30% wool", "20% polyester"],
+                variants: [
+                    {
+                        id: 1,
+                        color: "green",
+                        image: "./src/assets/images/socks_green.jpg",
+                        quantity: 15,
+                    },
+                    {
+                        id: 2,
+                        color: "blue",
+                        image: "./src/assets/images/socks_blue.jpg",
+                        quantity: 0,
+                    },
+                ],
+                sizes: ["XS", "S", "M", "L", "XL"],
+                brand: 'Vue mastery',
+                selectedVariant: 0,
+            }
+        },
+        methods: {
+            addToCart(){
+                if (this.variants[this.selectedVariant].quantity > 0) {
+                    this.$emit('add-to-cart');
+                    this.variants[this.selectedVariant].quantity -= 1;
+                }
+            },
+            removeToCart() {
+                if (this.cart > 0) {
+                    this.$emit('remove-from-cart');
+                    this.variants[this.selectedVariant].quantity += 1;
+                }
+            },
+            updateVariant(index) {
+                this.selectedVariant = index;
+            },
+        },
+        computed: {
+            title() {
+                return this.brand + " " + this.product;
+            },
+            image() {
+                return this.variants[this.selectedVariant].image;
+            },
+            inStock() {
+                return this.variants[this.selectedVariant].quantity;
+            },
+            onSaleDisplay() {
+                if (this.onSale == true) {
+                    return this.brand + " " + this.product + " is on sale !";
+                }
+                else {
+                    return this.brand + " " + this.product + " will be on sale soon !";
+                }
+            },
+            shipping() {
+                if (this.premium) {
+                    return "Free";
+                }
+                else {
+                    return 4.99;
+                }
+            }
+        }
+    }
+</script>
+
+<template>
+    <div class="product-display">
+        <div class="product-container">
+            <div class="product-image">
+                <a :href="url" target="_blank">
+                    <img :src="image" :class="{ outOfStockImg: !inStock }" />
+                </a>
+            </div>
+            <div class="product-info">
+                <h1>
+                    {{ title }}
+                </h1>
+                <p>
+                    {{ description }}
+                </p>
+                <p>{{ onSaleDisplay }}</p>
+                <p v-if="inStock">
+                    In stock
+                </p>
+                <p v-else>
+                    Out of stock
+                </p>
+                <p>
+                    Shipping: {{ shipping }}
+                </p>
+                <div class="list">
+                    <ProductDetails :details="details" />
+                    <ul>
+                    <li v-for="size in sizes">
+                        {{ size }}
+                    </li>
+                </ul>
+                </div>
+                <div class="circle__container">
+                    <div
+                        v-for="(variant, index) in variants"
+                        :key="variant.id"
+                        @mouseover="updateVariant(index)"
+                        class="color-circle"
+                        :style="{ backgroundColor: variant.color }"
+                    ></div>
+                </div>
+                <div class="button__container">
+                    <button 
+                        class="button" 
+                        @click="addToCart"
+                        :class="{ disabledButton: !inStock }"
+                        :disabled="!inStock"
+                    >
+                        Add to cart
+                    </button>
+                    <button 
+                        class="button" 
+                        @click="removeToCart()"
+                        :class="{ disabledButton: cart == 0 }"
+                        :disabled="cart == 0"
+                    >
+                        Remove from cart
+                    </button>
+                </div>
+            </div>
+            <div class="cart">Cart ({{ cart }})</div>
+        </div>
+    </div>
+</template>
+
+App.vue :
+
+<script>
+import ProductDisplay from "./components/ProductDisplay.vue";
+
+    export default {
+        components: {
+            ProductDisplay,
+        },
+        data(){
+            return {
+                cart: 0,
+                premium: true,
+            }
+        },
+        methods: {
+            updateCart() {
+                this.cart += 1;
+            },
+            removeFromCart() {
+                this.cart -= 1;
+            },
+        },
+    }
+</script>
+
+<template>
+    <div class="nav-bar"></div>
+    <ProductDisplay 
+    :cart="cart"
+    :premium="premium"
+    @add-to-cart="updateCart"
+    @remove-from-cart="removeFromCart"
+    />
+</template>
+```
+</details>
