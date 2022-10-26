@@ -1157,3 +1157,355 @@ What are the components? We can think of them as lego blocks that we can fit tog
 In our files, we have kept a "components" folder (if not, create it). In it, we will create our first file, named "ProductDisplay.vue".
 
 ![product-display](./readme/img/product-display.jpeg "product-display")
+
+In this new file "ProductDisplay.vue" we will copy and paste everything we had in the file "App.vue". In the ProductDisplay data we will just remove "cart" and in the template we can remove the navbar. In "App.vue" we will remove almost everything so that only this remains :
+
+```
+<!-- eslint-disable prettier/prettier -->
+<!-- eslint-disable vue/require-v-for-key -->
+
+<script>
+    export default {
+        data(){
+            return {
+                cart: 0,
+            }
+        },
+        methods: {
+            <!-- new methods will be added later -->
+        },
+    }
+</script>
+
+<template>
+    <div class="nav-bar"></div>
+</template>
+```
+
+We agree that for the moment, nothing is displayed anymore. This is because we need to import this component into the main file "App.vue" :
+
+```
+<script>
+import ProductDisplay from "./components/ProductDisplay.vue";
+
+    export default {
+        components: {
+            ProductDisplay,
+        },
+        data(){
+            return {
+                ...,
+            }
+        },
+    }
+</script>
+
+<template>
+    <div class="nav-bar"></div>
+    <ProductDisplay />
+</template>
+```
+We import the content of the "ProductDisplay.vue" component and name it "ProductDisplay". Then we create a component property in which we add the name (ProductDisplay). Finally, in the template, we create a tag with this name to specify where the content of this component will be placed.
+
+Simply magical, everything reappeared. This is how you use the components.
+
+However, the components work a bit like a parent/child relationship, i.e. if an information is in the parent, it is out of reach of the child.
+
+By now, you will have noticed that adding to the basket no longer works. This is normal, because the "cart" property has remained in "App.vue" and therefore cannot be updated... This is where the Props come in.
+
+Props act as a kind of funnel between parent and child, allowing interaction between the informations.
+
+First, let's learn how to use the Props:
+
+```
+in App.vue :
+
+<script>
+import ProductDisplay from "./components/ProductDisplay.vue";
+
+    export default {
+        components: {
+            ProductDisplay,
+        },
+        data(){
+            return {
+                ...,
+                premium: true,
+            }
+        },
+    }
+</script>
+
+<template>
+    <div class="nav-bar"></div>
+    <ProductDisplay :premium="premium" />
+</template>
+
+in ProductDisplay.vue
+
+export default {
+    props: {
+        premium: {
+            type: Boolean,
+            required: true,
+        },
+    },
+    data(){
+        return {
+            ...,
+        }
+    },
+    computed: {
+        ...,
+        shipping() {
+            if (this.premium) {
+                return "Free";
+            }
+            else {
+                return 4.99;
+            }
+        }
+    }
+}
+
+<template>
+    <p v-else>
+        Out of stock
+    </p>
+    <p>
+        Shipping: {{ shipping }}
+    </p>
+    <div class="list">
+        ...
+    </div>
+</template>
+```
+We add a "premium" property of type boolan. 
+
+Then, in the component in the template, we bind the Props "premium" of "ProductDisplay" to "premium" of App. In the Props, "premium" must be typed and properties can be added (for example here, it must be required). 
+
+Then, we make it a computed property in which we put a condition, if premium is true, then the delivery is free, otherwise, it costs 4.99. 
+
+Finally, we display it in a p tag.
+
+Now that we understand how it works, let's do the same for the cart :
+
+```
+in App.vue :
+
+<script>
+import ProductDisplay from "./components/ProductDisplay.vue";
+
+    export default {
+        components: {
+            ProductDisplay,
+        },
+        data(){
+            return {
+                ...,
+                premium: true,
+            }
+        },
+    }
+</script>
+
+<template>
+    <div class="nav-bar"></div>
+    <ProductDisplay 
+        :cart="cart"
+        :premium="premium" 
+    />
+</template>
+
+in ProductDisplay.vue
+
+export default {
+    props: {
+        ...,
+        cart: {
+            type: Number,
+        },
+    },
+}
+```
+
+#### 3.8.1 - Challenge :
+
+<details>
+  <summary>Create a new component called ProductDetails, which receives the details through a Prop called details.</summary>
+
+![product-details](./readme/img/product-details.jpeg "product-details")
+
+```sh
+ProductDisplay.vue :
+
+<script>
+import ProductDetails from "./ProductDetails.vue";
+
+    export default {
+        components: { 
+            ProductDetails 
+        },
+        props: {
+            premium: {
+                type: Boolean,
+                required: true,
+            },
+            cart: {
+                type: Number,
+            },
+        },
+        data(){
+            return {
+                product: 'Socks',
+                description: "Beautiful and soft touch socks",
+                url: "https://vuejs.org/guide/introduction.html",
+                onSale: true,
+                details: ["50% coton", "30% wool", "20% polyester"],
+                variants: [
+                    {
+                        id: 1,
+                        color: "green",
+                        image: "./src/assets/images/socks_green.jpg",
+                        quantity: 15,
+                    },
+                    {
+                        id: 2,
+                        color: "blue",
+                        image: "./src/assets/images/socks_blue.jpg",
+                        quantity: 0,
+                    },
+                ],
+                sizes: ["XS", "S", "M", "L", "XL"],
+                brand: 'Vue mastery',
+                selectedVariant: 0,
+            }
+        },
+        methods: {
+            addToCart(){
+                this.cart += 1
+            },
+            removeToCart(){
+                this.cart -= 1
+            },
+            updateVariant(index) {
+                this.selectedVariant = index;
+            },
+        },
+        computed: {
+            title() {
+                return this.brand + " " + this.product;
+            },
+            image() {
+                return this.variants[this.selectedVariant].image;
+            },
+            inStock() {
+                return this.variants[this.selectedVariant].quantity;
+            },
+            onSaleDisplay() {
+                if (this.onSale == true) {
+                    return this.brand + " " + this.product + " is on sale !";
+                }
+                else {
+                    return this.brand + " " + this.product + " will be on sale soon !";
+                }
+            },
+            shipping() {
+                if (this.premium) {
+                    return "Free";
+                }
+                else {
+                    return 4.99;
+                }
+            }
+        }
+    }
+</script>
+
+<template>
+    <div class="product-display">
+        <div class="product-container">
+            <div class="product-image">
+                <a :href="url" target="_blank">
+                    <img :src="image" :class="{ outOfStockImg: !inStock }" />
+                </a>
+            </div>
+            <div class="product-info">
+                <h1>
+                    {{ title }}
+                </h1>
+                <p>
+                    {{ description }}
+                </p>
+                <p>{{ onSaleDisplay }}</p>
+                <p v-if="inStock">
+                    In stock
+                </p>
+                <p v-else>
+                    Out of stock
+                </p>
+                <p>
+                    Shipping: {{ shipping }}
+                </p>
+                <div class="list">
+                    <ProductDetails :details="details" />
+                    <ul>
+                    <li v-for="size in sizes">
+                        {{ size }}
+                    </li>
+                </ul>
+                </div>
+                <div class="circle__container">
+                    <div
+                        v-for="(variant, index) in variants"
+                        :key="variant.id"
+                        @mouseover="updateVariant(index)"
+                        class="color-circle"
+                        :style="{ backgroundColor: variant.color }"
+                    ></div>
+                </div>
+                <div class="button__container">
+                    <button 
+                        class="button" 
+                        @click="addToCart"
+                        :class="{ disabledButton: !inStock }"
+                        :disabled="!inStock"
+                    >
+                        Add to cart
+                    </button>
+                    <button 
+                        class="button" 
+                        @click="removeToCart()"
+                        :class="{ disabledButton: cart == 0 }"
+                        :disabled="cart == 0"
+                    >
+                        Remove from cart
+                    </button>
+                </div>
+            </div>
+            <div class="cart">Cart ({{ cart }})</div>
+        </div>
+    </div>
+</template>
+
+ProductDetails.vue :
+
+<script>
+    export default {
+        props: {
+            details: {
+                type: Array,
+            }
+        },
+    }
+</script>
+
+<template>
+    <ul>
+        <li v-for="detail in details">
+            {{ detail }}
+        </li>
+    </ul>
+</template>
+```
+</details>
