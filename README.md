@@ -894,3 +894,250 @@ We tell it that if "inStock" is false, it gains the "disabledButton" class and t
 </template>
 ```
 </details>
+
+### 3.7 - Computed Properties
+
+We will add a new property to the data :
+
+```
+data(){
+    return {
+        ...,
+        brand: 'Vue mastery',
+    }
+},
+```
+What would happen if we wanted to combine 2 properties ? We could do this :
+
+```
+<h1>
+    {{ brand + " " + product }}
+</h1>
+```
+This would display "Vue Mastery Socks". But still in a logic that could be more complex, there are the computed properties. This allows you to do "calculations" which will be returned more efficiently :
+
+```
+methods: {
+    ...,
+},
+computed: {
+    title() {
+        return this.brand + " " + this.product;
+    },
+}
+
+<h1>
+    {{ title }}
+</h1>
+```
+
+Now that we have learned that, let's try to go further, why not have one product of a colour in stock and the other not ?
+
+Let's add a quantity to the variants array :
+
+```
+data(){
+    return {
+        ...,
+        variants: [
+            {
+                id: 1,
+                color: "green",
+                image: "./src/assets/images/socks_green.jpg",
+                quantity: 15,
+            },
+            {
+                id: 2,
+                color: "blue",
+                image: "./src/assets/images/socks_blue.jpg",
+                quantity: 15,
+            },
+        ],
+        ...,
+    }
+},
+```
+Now let's get the image and inStock updated using the computed properties :
+
+```
+<div class="circle__container">
+    <div
+        v-for="(variant, index) in variants"
+        :key="variant.id"
+        @mouseover="updateVariant(index)"
+        class="color-circle"
+        :style="{ backgroundColor: variant.color }"
+    ></div>
+</div>
+```
+We modify the "@mouseover" and the "v-for" by adding the "index" element because the update will now be done according to the index of the variants array.
+
+```
+data() {
+    return {
+        image: "./src/assets/images/socks_green.jpg", // <= We can remove
+        inStock: true, // <= We can remove
+        selectedVariant: 0,
+    };
+},
+```
+we can remove "image" and "inStock" in the data and replace with "selectedVariant" which will let us know which index is chosen.
+
+Then, in the methods, we will slightly modify the function "updateImage" which becomes "updateVariant" and which will change according to the chosen index :
+
+```
+methods: {
+    ...,
+    updateVariant(index) {
+        this.selectedVariant = index;
+    },
+},
+```
+Now you have to be able to return the image as well as the quantity. For this, let's use the computed properties :
+
+```
+computed: {
+    ...,
+    image() {
+        return this.variants[this.selectedVariant].image;
+    },
+    inStock() {
+        return this.variants[this.selectedVariant].quantity;
+    },
+}
+```
+We simply return the image and the quantity of the index chosen in the "variants" array.
+
+#### 3.7.1 - Challenge :
+
+<details>
+  <summary>Add an onSale boolean to the data (logically, it is already done) and use a computed property to display "brand + product 'is on sale'" whenever onSale is true</summary>
+
+```sh
+<script>
+    export default {
+        data(){
+            return {
+                product: 'Socks',
+                description: "Beautiful and soft touch socks",
+                url: "https://vuejs.org/guide/introduction.html",
+                onSale: true,
+                details: ["50% coton", "30% wool", "20% polyester"],
+                variants: [
+                    {
+                        id: 1,
+                        color: "green",
+                        image: "./src/assets/images/socks_green.jpg",
+                        quantity: 15,
+                    },
+                    {
+                        id: 2,
+                        color: "blue",
+                        image: "./src/assets/images/socks_blue.jpg",
+                        quantity: 0,
+                    },
+                ],
+                sizes: ["XS", "S", "M", "L", "XL"],
+                cart: 0,
+                brand: 'Vue mastery',
+                selectedVariant: 0,
+            }
+        },
+        methods: {
+            addToCart(){
+                this.cart += 1
+            },
+            removeToCart(){
+                this.cart -= 1
+            },
+            updateVariant(index) {
+                this.selectedVariant = index;
+            },
+        },
+        computed: {
+            title() {
+                return this.brand + " " + this.product;
+            },
+            image() {
+                return this.variants[this.selectedVariant].image;
+            },
+            inStock() {
+                return this.variants[this.selectedVariant].quantity;
+            },
+            onSaleDisplay() {
+                if (this.onSale == true) {
+                    return this.brand + " " + this.product + " is on sale !";
+                }
+                else {
+                    return this.brand + " " + this.product + " will be on sale soon !";
+                }
+            },
+        }
+    }
+</script>
+
+<template>
+    <div class="nav-bar"></div>
+
+    <div class="product-display">
+        <div class="product-container">
+            <div class="product-image">
+                <a :href="url" target="_blank">
+                    <img :src="image" :class="{ outOfStockImg: !inStock }" />
+                </a>
+            </div>
+            <div class="product-info">
+                <h1>
+                    {{ title }}
+                </h1>
+                <p>
+                    {{ description }}
+                </p>
+                <p>{{ onSaleDisplay }}</p>
+                <p v-if="inStock">
+                    In stock
+                </p>
+                <p v-else>
+                    Out of stock
+                </p>
+                <div class="list">
+                    <ul>
+                        <li v-for="detail in details">
+                            {{ detail }}
+                        </li>
+                    </ul>
+                    <ul>
+                    <li v-for="size in sizes">
+                        {{ size }}
+                    </li>
+                </ul>
+                </div>
+                <div class="circle__container">
+                    <div
+                        v-for="(variant, index) in variants"
+                        :key="variant.id"
+                        @mouseover="updateVariant(index)"
+                        class="color-circle"
+                        :style="{ backgroundColor: variant.color }"
+                    ></div>
+                </div>
+                <div class="button__container">
+                    <button 
+                        class="button" 
+                        @click="addToCart"
+                        :class="{ disabledButton: !inStock }"
+                        :disabled="!inStock"
+                    >
+                        Add to cart
+                    </button>
+                    <button class="button" @click="removeToCart()">
+                        Remove from cart
+                    </button>
+                </div>
+            </div>
+            <div class="cart">Cart ({{ cart }})</div>
+        </div>
+    </div>
+</template>
+```
+</details>
