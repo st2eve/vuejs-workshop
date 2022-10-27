@@ -1851,6 +1851,8 @@ in ReviewForm.vue :
 We add a method, that when we click on the " submit " button, we won't just send the information back, but we will send it out like our radio waves before :
 
 ```
+in ReviewForm.vue :
+
 methods: {
     onSubmit() {
         let productReview = {
@@ -1868,6 +1870,8 @@ methods: {
 Next, let's not forget to call the new component "ReviewForm" in our App :
 
 ```
+App.vue :
+
 <script>
 import ProductDisplay from "./components/ProductDisplay.vue";
 import ReviewForm from "./components/ReviewForm.vue";
@@ -1886,3 +1890,99 @@ import ReviewForm from "./components/ReviewForm.vue";
   <ReviewForm />
 </template>
 ```
+The form appears and we can enter our information...however, once sent, this information does not go anywhere...
+
+So we'll need to listen to the submit event and add the review to the ProductDisplay component.
+
+remember, we have "review-submitted" which is transmitted over the radio waves, so it must be received :
+
+```
+App.vue :
+
+<script>
+export default {
+    data(){
+        return {
+            ...,
+            reviews: [],
+        }
+    },
+    methods: {
+        ...,
+        addReview(review) {
+            this.reviews.push(review);
+        },
+    },
+}
+</script>
+
+<template>
+  ...
+  <ReviewForm @review-submitted="addReview" />
+</template>
+```
+So we tell him to push the information into an array called "reviews". We will have to display these reviews, so let's create a new component named "ReviewList.vue" :
+
+![review-list](./readme/img/review-list.jpeg "review-list")
+
+And we will copy the following code into it:
+
+```
+ReviewList.vue :
+
+<!-- eslint-disable vue/require-v-for-key -->
+<!-- eslint-disable prettier/prettier -->
+
+<script>
+export default {
+  props: {
+    reviews: {
+        type: Array,
+        required: true,
+    }
+  }
+};
+</script>
+<template>
+  <div class="review-container">
+    <h3>Reviews:</h3>
+    <ul>
+      <li v-for="(review, index) in reviews" :key="index">
+        {{ review.name }} gave this {{ review.rating }} stars
+        <br />
+        "{{ review.review }}"
+      </li>
+    </ul>
+  </div>
+</template>
+```
+We have created the Prop of "reviews" to use in the App, we make a list for each review created and we display the name, the rating and the review.
+
+Finally, we import this "ReviewList" component into "App.vue" :
+
+```
+App.vue :
+
+<script>
+...
+import ReviewList from "./components/ReviewList.vue";
+
+    export default {
+        components: {
+            ...,
+            ReviewList,
+        },
+        ...,
+    }
+</script>
+
+<template>
+  ...
+  <ReviewList v-if="reviews.length" :reviews="reviews" />
+  ...
+</template>
+```
+
+And voilà :
+
+![vuejs-ws-end](./readme/img/vuejs-ws-end.jpeg "vuejs-ws-end")
