@@ -1763,3 +1763,7 @@ import ProductDisplay from "./components/ProductDisplay.vue";
 </template>
 ```
 </details>
+
+### 3.10 Forms
+
+For this last exercise, we will see a way to use forms with Vuejs
