@@ -1811,3 +1811,78 @@ export default {
 </template>
 
 ```
+In the data, we will have to retrieve the values that we will enter in the form. To do this, we will use the "v-model" directive :
+
+```
+in ReviewForm.vue :
+
+<template>
+  <form class="review-form">
+    ...
+    <input id="name" v-model="name" />
+
+    ...
+    <textarea id="review" v-model="review"></textarea>
+    ...
+    <select id="rating" v-model.number="rating">
+      <option>5</option>
+      <option>4</option>
+      <option>3</option>
+      <option>2</option>
+      <option>1</option>
+    </select>
+    ...
+  </form>
+</template>
+
+```
+Next, we will prevent the browser from refreshing when the form is validated :
+
+```
+in ReviewForm.vue :
+
+<template>
+  <form class="review-form" @submit.prevent="onSubmit">
+    ...
+  </form>
+</template>
+
+```
+We add a method, that when we click on the " submit " button, we won't just send the information back, but we will send it out like our radio waves before :
+
+```
+methods: {
+    onSubmit() {
+        let productReview = {
+            name: this.name,
+            review: this.review,
+            rating: this.rating,
+        }
+        this.$emit('review-submitted', productReview)
+        this.name = ''
+        this.review = ''
+        this.rating = null
+    }
+  }
+```
+Next, let's not forget to call the new component "ReviewForm" in our App :
+
+```
+<script>
+import ProductDisplay from "./components/ProductDisplay.vue";
+import ReviewForm from "./components/ReviewForm.vue";
+
+    export default {
+        components: {
+            ProductDisplay,
+            ReviewForm,
+        },
+        ...,
+    }
+</script>
+
+<template>
+  ...
+  <ReviewForm />
+</template>
+```
