@@ -1766,4 +1766,8 @@ import ProductDisplay from "./components/ProductDisplay.vue";
 
 ### 3.10 Forms
 
-For this last exercise, we will see a way to use forms with Vuejs
+For this last exercise, we will see a way to use forms with Vuejs. This will be the perfect opportunity to learn the v-model property.
+
+In our components folder, let's first create a "ReviewForm.vue" file :
+
+![review-form](./readme/img/review-form.jpeg "review-form")
