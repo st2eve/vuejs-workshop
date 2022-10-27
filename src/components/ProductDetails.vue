@@ -1,17 +1,17 @@
 <script>
-    export default {
-        props: {
-            details: {
-                type: Array,
-            }
-        },
-    }
+export default {
+  props: {
+    details: {
+      type: Array,
+    },
+  },
+};
 </script>
 
 <template>
-    <ul>
-        <li v-for="detail in details">
-            {{ detail }}
-        </li>
-    </ul>
+  <ul>
+    <li v-for="detail in details" :key="detail">
+      {{ detail }}
+    </li>
+  </ul>
 </template>
